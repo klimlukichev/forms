@@ -15,7 +15,7 @@ return [
 
     'db' => [
         // Supported: sqlite, mysql
-        'driver' => env('DB_DRIVER', 'sqlite'),
+        'driver' => env('DB_DRIVER', 'mysql'),
 
         'sqlite' => [
             'path' => env('DB_SQLITE_PATH', __DIR__ . '/../data/app.sqlite'),

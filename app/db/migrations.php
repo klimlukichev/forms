@@ -5,9 +5,11 @@ function db_table_exists(PDO $pdo, string $table): bool
 {
     $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
     if ($driver === 'mysql') {
-        $stmt = $pdo->prepare('SHOW TABLES LIKE :t');
-        $stmt->execute([':t' => $table]);
-        return (bool)$stmt->fetchColumn();
+        // MySQL не позволяет использовать плейсхолдеры в SHOW TABLES,
+        // поэтому собираем запрос вручную. $table приходит из кода, а не от пользователя.
+        $sql = 'SHOW TABLES LIKE ' . $pdo->quote($table);
+        $stmt = $pdo->query($sql);
+        return $stmt !== false && $stmt->fetchColumn() !== false;
     }
 
     $stmt = $pdo->prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=:t");
