@@ -3,49 +3,49 @@ declare(strict_types=1);
 
 return [
     'app' => [
-        'name' => 'Forms',
+        'name' => env('APP_NAME', 'Forms'),
     ],
 
     'session' => [
-        'name' => 'forms_session',
-        'cookie_secure' => false, // set true if using HTTPS
+        'name' => env('SESSION_NAME', 'forms_session'),
+        'cookie_secure' => env('SESSION_COOKIE_SECURE', '0') === '1', // set true if using HTTPS
         'cookie_httponly' => true,
-        'cookie_samesite' => 'Lax',
+        'cookie_samesite' => env('SESSION_COOKIE_SAMESITE', 'Lax'),
     ],
 
     'db' => [
         // Supported: sqlite, mysql
-        'driver' => 'sqlite',
+        'driver' => env('DB_DRIVER', 'sqlite'),
 
         'sqlite' => [
-            'path' => __DIR__ . '/../data/app.sqlite',
+            'path' => env('DB_SQLITE_PATH', __DIR__ . '/../data/app.sqlite'),
         ],
 
         'mysql' => [
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'database' => 'forms',
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8mb4',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => (int)(env('DB_PORT', '3306') ?? '3306'),
+            'database' => env('DB_DATABASE', 'forms'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => env('DB_CHARSET', 'utf8mb4'),
         ],
     ],
 
     'captcha' => [
         // Supported: yandex, recaptcha, none
-        'provider' => 'yandex',
+        'provider' => env('CAPTCHA_PROVIDER', 'yandex'),
 
         // Yandex SmartCaptcha
         'yandex' => [
-            'client_key' => 'PUT_YANDEX_CLIENT_KEY_HERE',
-            'server_key' => 'PUT_YANDEX_SERVER_KEY_HERE',
+            'client_key' => env('YANDEX_CLIENT_KEY', ''),
+            'server_key' => env('YANDEX_SERVER_KEY', ''),
             'endpoint' => 'https://smartcaptcha.yandexcloud.net/validate',
         ],
 
         // Google reCAPTCHA v2 ("I'm not a robot")
         'recaptcha' => [
-            'site_key' => 'PUT_RECAPTCHA_SITE_KEY_HERE',
-            'secret_key' => 'PUT_RECAPTCHA_SECRET_KEY_HERE',
+            'site_key' => env('RECAPTCHA_SITE_KEY', ''),
+            'secret_key' => env('RECAPTCHA_SECRET_KEY', ''),
             'endpoint' => 'https://www.google.com/recaptcha/api/siteverify',
         ],
     ],
