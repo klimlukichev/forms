@@ -50,8 +50,11 @@ function user_find_by_phone(PDO $pdo, string $phone): ?array
  */
 function user_find_by_email_or_phone(PDO $pdo, string $identifier): ?array
 {
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :v OR phone = :v LIMIT 1');
-    $stmt->execute([':v' => $identifier]);
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = :email OR phone = :phone LIMIT 1');
+    $stmt->execute([
+        ':email' => $identifier,
+        ':phone' => $identifier,
+    ]);
     $row = $stmt->fetch();
     return $row ?: null;
 }
